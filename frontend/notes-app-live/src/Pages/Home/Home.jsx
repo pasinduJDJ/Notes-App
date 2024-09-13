@@ -1,8 +1,17 @@
 import Navbar from "../../components/Navbar/Navbar";
 import NoteCard from "../../components/Cards/NoteCard";
 import { MdAdd } from "react-icons/md";
+import AddEditNotes from "./AddEditNotes";
+import { useState } from "react";
+import Model from "react-modal"
 
 const Home = () => {
+
+  const [openAddEditModel , setOpenAddEditModel] = useState({
+    isShown:false,
+    type:"add",
+    data:null,
+  })
   return (
     <>
       <Navbar />
@@ -12,7 +21,7 @@ const Home = () => {
           <NoteCard
             title="Meeting on 7th April"
             date="3rd Apr 2024"
-            content="Meeting on 7th April Meeting on 7th April"
+            content="Meeting on 7th April "
             tags="#Meeting"
             ispinned={true}
             onEdit={() => { }}
@@ -24,11 +33,33 @@ const Home = () => {
       </div>
 
       <button
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
-        onClick={() => {}}
-      >
+        className="w-16 h-16 flex items-center justify-center rounded-xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
+        onClick={() => {
+          setOpenAddEditModel({isShown:true, type:"add", data:null});
+        }}>
         <MdAdd className="text-[32px] text-white" />
       </button>
+
+
+      <Model
+        isOpen = {openAddEditModel.isShown}
+        onRequestClose={()=>{}}
+        style ={{
+          overlay: {
+            backgroundColor: "rgba(0,0,0,0.2)"
+          }
+        }}
+        contentLabel=""
+        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-4 "
+      >
+        <AddEditNotes
+        type ={openAddEditModel.type}
+        noteData = {openAddEditModel.data}
+          onClose={() =>{
+            setOpenAddEditModel({isShown:false , type:"add", data:null});
+          }}
+        />
+      </Model>
 
     </>
 
